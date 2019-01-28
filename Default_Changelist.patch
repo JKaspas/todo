@@ -1,0 +1,106 @@
+Index: src/main/java/lt/inventi/todo/TodoController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/lt/inventi/todo/TodoController.java	(revision Shelved Version)
++++ src/main/java/lt/inventi/todo/TodoController.java	(revision Shelved Version)
+@@ -0,0 +1,24 @@
++package lt.inventi.todo;
++
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.web.bind.annotation.CrossOrigin;
++import org.springframework.web.bind.annotation.GetMapping;
++import org.springframework.web.bind.annotation.RequestMapping;
++import org.springframework.web.bind.annotation.RestController;
++
++import java.util.List;
++
++@RestController
++@RequestMapping("/api/todo")
++@CrossOrigin(origins = "*")
++public class TodoController {
++
++    @Autowired
++    TodoService service;
++
++    @GetMapping
++    private List<TodosDto> getAllActivTodos() {
++        return service.getAllActive();
++    }
++}
++
+Index: src/main/java/lt/inventi/todo/TodoRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/lt/inventi/todo/TodoRepository.java	(revision Shelved Version)
++++ src/main/java/lt/inventi/todo/TodoRepository.java	(revision Shelved Version)
+@@ -0,0 +1,22 @@
++package lt.inventi.todo;
++
++import  org.jooq.DSLContext;
++import org.springframework.stereotype.Repository;
++
++import javax.transaction.Transactional;
++import java.util.List;
++
++@Repository
++@Transactional
++public class TodoRepository {
++
++    private final DSLContext dsl;
++
++    public TodoRepository(DSLContext dsl) {
++        this.dsl = dsl
++    }
++
++    public List<TodosDto> getAllActiveTodos() {
++        dsl.select().from(Todos)
++    }
++}
+Index: src/main/java/lt/inventi/todo/TodosDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/lt/inventi/todo/TodosDto.java	(revision Shelved Version)
++++ src/main/java/lt/inventi/todo/TodosDto.java	(revision Shelved Version)
+@@ -0,0 +1,12 @@
++package lt.inventi.todo;
++
++import lombok.Data;
++import java.util.Date;
++
++@Data
++public class TodosDto {
++
++    private Integer id;
++    private String description;
++    private Date createdAt;
++}
+Index: src/main/java/lt/inventi/todo/TodoService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/lt/inventi/todo/TodoService.java	(revision Shelved Version)
++++ src/main/java/lt/inventi/todo/TodoService.java	(revision Shelved Version)
+@@ -0,0 +1,16 @@
++package lt.inventi.todo;
++
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Service;
++import java.util.List;
++
++@Service
++public class TodoService {
++
++    @Autowired
++    TodoRepository repo;
++
++    public List<TodosDto> getAllActive() {
++        return repo.getAllActiveTodos();
++    }
++}
