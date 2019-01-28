@@ -131,13 +131,13 @@
                             <generator>
                                 <database>
                                     <name>org.jooq.meta.mysql.MySQLDatabase</name>
-                                    <includes>todo.*</includes>
+                                    <includes>todo.todos</includes>
                                     <excludes />
                                 </database>
-                                <!--<target>-->
-                                    <!--<packageName>lt.inventi.todo</packageName>-->
-                                    <!--<directory>${basedir}/src/main/generated</directory>-->
-                                <!--</target>-->
+                                <target>
+                                    <packageName>lt.inventi.todo</packageName>
+                                    <directory>${basedir}/src/generated/java</directory>
+                                </target>
                             </generator>
                         </configuration>
                     </plugin>
