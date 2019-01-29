@@ -17,6 +17,7 @@ import lt.inventi.todo.generated.todo.tables.records.TodosRecord;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -41,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Todos extends TableImpl<TodosRecord> {
 
-    private static final long serialVersionUID = 1843898423;
+    private static final long serialVersionUID = -812078541;
 
     /**
      * The reference instance of <code>todo.todos</code>
@@ -59,7 +60,7 @@ public class Todos extends TableImpl<TodosRecord> {
     /**
      * The column <code>todo.todos.id</code>.
      */
-    public final TableField<TodosRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<TodosRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>todo.todos.description</code>.
@@ -123,6 +124,14 @@ public class Todos extends TableImpl<TodosRecord> {
     @Override
     public List<Index> getIndexes() {
         return Arrays.<Index>asList(Indexes.TODOS_PRIMARY);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Identity<TodosRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_TODOS;
     }
 
     /**

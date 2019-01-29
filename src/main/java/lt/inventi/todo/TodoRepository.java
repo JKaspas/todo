@@ -1,14 +1,12 @@
 package lt.inventi.todo;
 
-import lt.inventi.todo.generated.todo.Todo;
+import lt.inventi.todo.generated.todo.tables.Todos;
+import lt.inventi.todo.generated.todo.tables.records.TodosRecord;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
-
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @Transactional
@@ -20,18 +18,19 @@ public class TodoRepository {
         this.dsl = dsl;
     }
 
-    private TodosDto resultToTodosDto(Record r) {
-        return new ModelMapper().map(r, TodosDto.class);
-    }
-   
-    public List<TodosDto> getAllActiveTodos() {
+    public List<Record> getAllTodos() {
         return dsl
                 .select()
-                .from(Todo.TODO.TODOS)
-                .where(Todo.TODO.TODOS.ACTIVE.isTrue())
-                .fetch()
-                .stream()
-                .map(this::resultToTodosDto)
-                .collect(Collectors.toList());
+                .from(Todos.TODOS)
+                .fetch();
     }
+
+    public void persistTodo(TodosRecord todo) {
+        dsl.insertInto(Todos.TODOS).set(todo);
+    }
+
+    public void setTodoActiveToFalse(Integer id) {
+        dsl.update(Todos.TODOS).set(Todos.TODOS.ACTIVE, false).where(Todos.TODOS.ID.eq(id));
+    }
+
 }

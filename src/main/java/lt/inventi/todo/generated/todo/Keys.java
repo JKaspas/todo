@@ -9,6 +9,7 @@ import javax.annotation.Generated;
 import lt.inventi.todo.generated.todo.tables.Todos;
 import lt.inventi.todo.generated.todo.tables.records.TodosRecord;
 
+import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
 
@@ -31,6 +32,7 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
+    public static final Identity<TodosRecord, Integer> IDENTITY_TODOS = Identities0.IDENTITY_TODOS;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -46,6 +48,10 @@ public class Keys {
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
+
+    private static class Identities0 {
+        public static Identity<TodosRecord, Integer> IDENTITY_TODOS = Internal.createIdentity(Todos.TODOS, Todos.TODOS.ID);
+    }
 
     private static class UniqueKeys0 {
         public static final UniqueKey<TodosRecord> KEY_TODOS_PRIMARY = Internal.createUniqueKey(Todos.TODOS, "KEY_todos_PRIMARY", Todos.TODOS.ID);
