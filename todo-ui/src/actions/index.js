@@ -8,7 +8,7 @@ export const createTodo = ({todo, date}) => {
         return axios.post(apiUrl, {description: todo, created: date})
             .then(response => {
                 dispatch(createPostSuccess(response.data))
-                })
+                }).then(() => dispatch(fetchAllTodos()))
             .catch(error => {
                 throw(error);
             });
