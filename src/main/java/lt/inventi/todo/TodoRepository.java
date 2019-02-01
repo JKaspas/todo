@@ -26,11 +26,11 @@ public class TodoRepository {
     }
 
     public void persistTodo(TodosRecord todo) {
-        dsl.insertInto(Todos.TODOS).set(todo);
+        dsl.insertInto(Todos.TODOS).set(todo).execute();
     }
 
     public void setTodoActiveToFalse(Integer id) {
-        dsl.update(Todos.TODOS).set(Todos.TODOS.ACTIVE, false).where(Todos.TODOS.ID.eq(id));
+        dsl.update(Todos.TODOS).set(Todos.TODOS.ACTIVE, false).where(Todos.TODOS.ID.eq(id)).execute();
     }
 
 }

@@ -30,6 +30,6 @@ public class TodoController {
     @ResponseStatus(HttpStatus.OK)
     private void archiveTodo(@PathVariable Integer id) {
         service.updateTodo(id);
+        }
     }
-}
 
