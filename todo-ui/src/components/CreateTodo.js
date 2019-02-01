@@ -6,7 +6,6 @@ const mapDispatchToProps = dispatch => {
     return {
         onAddTodo: todo => {
             dispatch(createTodo(todo));
-            dispatch(fetchAllTodos());
         }
     };
 };
